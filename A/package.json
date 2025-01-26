@@ -3,6 +3,7 @@
     "date-fns": "^3.0.0"
   },
   "scripts": {
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && prisma db push && next build"
   }
 } 
