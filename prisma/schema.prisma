@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = []
 }
 
 datasource db {
@@ -8,19 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id             String    @id @default(cuid())
+  name           String?
+  email          String    @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  role           Role      @default(USER)
+  bookings       Booking[]
+  reviews        Review[]
+}
+
+model Service {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  duration    Int
+  price       Decimal   @db.Decimal(10, 2)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  bookings    Booking[]
+}
+
 model Booking {
   id        Int      @id @default(autoincrement())
   date      DateTime
-  time      String
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  stylistId Int
-  stylist   Stylist  @relation(fields: [stylistId], references: [id])
-  serviceId Int
-  service   Service  @relation(fields: [serviceId], references: [id])
-  status    String   @default("confirmed") 
+  status    Status   @default(PENDING)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  serviceId Int
+  service   Service  @relation(fields: [serviceId], references: [id])
   review    Review?
 }
 
@@ -28,29 +49,23 @@ model Review {
   id        Int      @id @default(autoincrement())
   rating    Int
   comment   String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  stylistId Int
-  stylist   Stylist  @relation(fields: [stylistId], references: [id])
-  bookingId Int      @unique
-  booking   Booking  @relation(fields: [bookingId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  bookingId Int      @unique
+  booking   Booking  @relation(fields: [bookingId], references: [id])
 }
 
-model User {
-  // ... existing fields
-  reviews Review[]
+enum Role {
+  USER
+  ADMIN
 }
 
-model Stylist {
-  // ... existing fields
-  reviews Review[]
-}
-
-model Service {
-  id Int @id @default(autoincrement())
-  name String
-  bookings Booking[]
+enum Status {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
 }
 

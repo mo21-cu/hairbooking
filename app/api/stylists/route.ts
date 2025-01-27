@@ -1,15 +1,15 @@
-import { NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
+import { prisma } from '@/app/lib/prisma'
+import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    const stylists = await prisma.stylist.findMany({
-      include: { services: true },
-    })
-    return NextResponse.json(stylists)
+    const services = await prisma.service.findMany()
+    return NextResponse.json(services)
   } catch (error) {
-    console.error("Error fetching stylists:", error)
-    return NextResponse.json({ error: "Error fetching stylists" }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Error fetching services' },
+      { status: 500 }
+    )
   }
 }
 
