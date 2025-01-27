@@ -35,10 +35,7 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
-        const passwordMatch = await comparePasswords(
-          credentials.password,
-          user.hashedPassword!
-        );
+        const passwordMatch = credentials.password === user.hashedPassword;
 
         if (!passwordMatch) {
           return null;
@@ -50,6 +47,9 @@ export const authOptions: AuthOptions = {
   ],
   session: {
     strategy: "jwt"
+  },
+  pages: {
+    signIn: "/login"
   },
   secret: process.env.NEXTAUTH_SECRET
 }; 
