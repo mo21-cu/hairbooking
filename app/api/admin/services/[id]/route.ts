@@ -20,7 +20,6 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
   } catch (error) {
     console.error("Error deleting service:", error)
     return NextResponse.json({ error: "Error deleting service" }, { status: 500 })
-    
   }
 }
 
