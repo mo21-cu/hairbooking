@@ -1,13 +1,5 @@
 {
-  "buildCommand": "npm install && npx prisma generate && npm run build",
+  "buildCommand": "npm run build",
   "installCommand": "npm install",
-  "env": {
-    "PRISMA_GENERATE_DATAPROXY": "true"
-  },
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ]
+  "framework": "nextjs"
 } 

@@ -6,6 +6,8 @@
   },
   "scripts": {
     "postinstall": "prisma generate",
-    "vercel-build": "prisma generate && prisma db push && next build"
+    "build": "next build",
+    "dev": "next dev",
+    "start": "next start"
   }
 } 
