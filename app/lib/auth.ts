@@ -1,9 +1,7 @@
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "./prisma";
 import { createHash } from 'crypto';
-
-const prisma = new PrismaClient();
 
 async function hashPassword(password: string): Promise<string> {
   return createHash('sha256').update(password).digest('hex');
